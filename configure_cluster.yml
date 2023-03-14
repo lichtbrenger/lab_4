@@ -111,7 +111,9 @@
       register: join_cmd
 
     - name: Add join cmd to dummy host
-      ADD YOUR SOLUTION HERE
+      ansible.builtin.add_host:
+        name: "join_cmd_holder"
+        cmd: "{{ join_cmd.stdout }}"
 
 - hosts: worker
   tasks:
@@ -120,7 +122,8 @@
         msg: "[Worker] {{ hostvars['join_cmd_holder']['cmd'] }}"
 
     - name: join
-      ADD YOUR SOLUTION HERE
+      ansible.builtin.shell: "{{ hostvars['join_cmd_holder']['cmd'] }}"
+      become: yes
 
 
 - hosts: master
